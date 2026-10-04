@@ -16,6 +16,25 @@
 
 播放器支持 `tvg-id` 时，应优先按频道 ID 匹配节目单。如果播放器没有读取 M3U 内的节目单地址，请手动设置为上面的地址并刷新节目单和播放列表。
 
+### Kodi / IPTV Simple Client
+
+Kodi 用户请订阅 [Kodi 专用播放列表](https://raw.githubusercontent.com/huahuahuahuahuahuahuahua/China-ShangHai-IPTV-list/refs/heads/master/IPTV_Enhanced_change_kodi.m3u)。它保留同样的 95 个频道、直播 URL、EPG 映射和台标，并在每个频道的 `#EXTINF` 行写入：
+
+```text
+catchup="append" catchup-source="&playseek={utc:YmdHMS}-{utcend:YmdHMS}"
+```
+
+每频道回看参数可避开 IPTV Simple Client 21.11.0 对文件头 `catchup-source` 默认值的继承问题；时间占位符使用 Kodi 支持的格式，`&` 用于追加到已有查询参数的直播 URL。
+
+- 在 IPTV Simple Client 的当前实例中保持“启用回放”打开。
+- “请求格式字符串”可以留空，频道自己的 `catchup-source` 会提供模板。
+- 回放窗口时间按运营商实际保留天数设置；设为 5 天不会使服务器额外保存录像。
+- EPG URL 可以留空，由播放列表文件头的 `x-tvg-url` 提供，也可以继续显式填写同一个地址。
+- 保存订阅后重新加载客户端；如启用了播放列表缓存，确认已经读取 Kodi 专用文件。
+- 要在指南中显示多天历史节目，还需调整 Kodi 的“设置 → PVR 与直播电视 → 指南 → 显示的过去日数”。
+
+回看请求已验证能从运营商服务器获得 HLS 播放列表，完整视频播放仍需在 Kodi 上验证。
+
 以下 24 个频道保留原名，未指定节目单 ID，以免关联到错误频道：
 
 | 原因 | 频道 |
